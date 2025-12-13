@@ -16,7 +16,7 @@ struct Task {
     int progress; // 0 to 100
 };
 
-// Global variables (keeps it simple for beginners, though passing by reference is better later on)
+// Global variables 
 Task tasks[MAX_TASKS];
 int taskCount = 0;
 
@@ -69,10 +69,7 @@ int main() {
     return 0;
 }
 
-// ---------------------------------------------------------
-// Function Definitions
-// ---------------------------------------------------------
-
+//definition function
 // Adds a new task to the array
 void addTask() {
     if (taskCount >= MAX_TASKS) {
@@ -206,7 +203,6 @@ void loadTasks() {
         inFile.close();
         cout << "Data loaded. " << taskCount << " tasks found.\n";
     } else {
-        // It's okay if file doesn't exist yet (first run)
         cout << "No saved file found. Starting with empty list.\n";
     }
 }
