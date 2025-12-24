@@ -4,7 +4,6 @@ use  project_Tracking_and_Managment
 -- ADMIN table
 CREATE TABLE ADMIN (
     admin_id INT PRIMARY KEY,
-    full_name VARCHAR(20),
     firstName VARCHAR(20),
     middleName VARCHAR(20),
     lastName VARCHAR(20),
@@ -17,7 +16,6 @@ CREATE TABLE ADMIN (
 -- HOD table
 CREATE TABLE HOD (
     hod_id INT PRIMARY KEY,
-    full_name VARCHAR(20),
     firstName VARCHAR(20),
     middleName VARCHAR(20),
     lastName VARCHAR(20),
@@ -30,7 +28,6 @@ CREATE TABLE HOD (
 -- ADVISOR table
 CREATE TABLE ADVISOR (
     advisor_id INT PRIMARY KEY,
-    full_name VARCHAR(20),
     firstName VARCHAR(20),
     middleName VARCHAR(20),
     lastName VARCHAR(20),
@@ -51,7 +48,6 @@ CREATE TABLE GROUPS (
 -- STUDENT table (without multivalued attributes)
 CREATE TABLE STUDENT (
     student_id INT PRIMARY KEY,
-    full_name VARCHAR(20),
     firstName VARCHAR(20),
     middleName VARCHAR(20),
     lastName VARCHAR(20),
@@ -126,4 +122,5 @@ CREATE TABLE MESSAGE (
     receiver_id INT,
     message_body TEXT,
     sent_at DATETIME
+
 );
