@@ -4,23 +4,23 @@ use  project_Tracking_and_Managment
 -- ADMIN table
 CREATE TABLE ADMIN (
     admin_id VARCHAR (10) PRIMARY KEY,
-    firstName VARCHAR(20),
+    firstName VARCHAR(20) NOT NULL,
     middleName VARCHAR(20),
     lastName VARCHAR(20),
-    email VARCHAR(20),
-    password VARCHAR(20),
-    status VARCHAR(10),
+    email VARCHAR(20) UNIQUE,
+    password VARCHAR(20) NOT NULL,
+    status VARCHAR(10) ,
     createUserCount INT
 );
 
 -- HOD table
 CREATE TABLE HOD (
     hod_id VARCHAR (10) PRIMARY KEY,
-    firstName VARCHAR(20),
+    firstName VARCHAR(20) NOT NULL,
     middleName VARCHAR(20),
     lastName VARCHAR(20),
-    email VARCHAR(20),
-    password VARCHAR(20),
+    email VARCHAR(20) UNIQUE,
+    password VARCHAR(20) NOT NULL,
     status VARCHAR(10),
     officeNumber VARCHAR(10)
 );
@@ -28,11 +28,11 @@ CREATE TABLE HOD (
 -- ADVISOR table
 CREATE TABLE ADVISOR (
     advisor_id VARCHAR (10) PRIMARY KEY,
-    firstName VARCHAR(20),
+    firstName VARCHAR(20) NOT NULL,
     middleName VARCHAR(20),
     lastName VARCHAR(20),
-    email VARCHAR(20),
-    password VARCHAR(20),
+    email VARCHAR(20) UNIQUE,
+    password VARCHAR(20) NOT NULL,
     status VARCHAR(10),
     course VARCHAR(10)
 );
@@ -41,18 +41,18 @@ CREATE TABLE ADVISOR (
 -- GROUP table
 CREATE TABLE GROUPS (
     group_id VARCHAR (10) PRIMARY KEY,
-    group_name VARCHAR(20)
+    group_name VARCHAR(20) UNIQUE
 );
 
 
 -- STUDENT table (without multivalued attributes)
 CREATE TABLE STUDENT (
     student_id VARCHAR (10) PRIMARY KEY,
-    firstName VARCHAR(20),
+    firstName VARCHAR(20) NOT NULL,
     middleName VARCHAR(20),
     lastName VARCHAR(20),
-    email VARCHAR(20),
-    password VARCHAR(20),
+    email VARCHAR(20) UNIQUE,
+    password VARCHAR(20) NOT NULL,
     status VARCHAR(10),
     group_id VARCHAR (10),
     GPA DECIMAL(3,2),
@@ -85,7 +85,7 @@ CREATE TABLE GROUP_SCHEDULE (
 -- PROJECT table
 CREATE TABLE PROJECT (
     project_id VARCHAR (10) PRIMARY KEY,
-    projectName VARCHAR(30),
+    projectName VARCHAR(30) NOT NULL,
     group_id VARCHAR (10) UNIQUE,
     FOREIGN KEY (group_id) REFERENCES GROUPS(group_id)
 );
@@ -124,4 +124,5 @@ CREATE TABLE MESSAGE (
     sent_at DATETIME
 
 );
+
 
