@@ -3,7 +3,7 @@ use  project_Tracking_and_Managment
 
 -- ADMIN table
 CREATE TABLE ADMIN (
-    admin_id INT PRIMARY KEY,
+    admin_id VARCHAR (10) PRIMARY KEY,
     firstName VARCHAR(20),
     middleName VARCHAR(20),
     lastName VARCHAR(20),
@@ -15,7 +15,7 @@ CREATE TABLE ADMIN (
 
 -- HOD table
 CREATE TABLE HOD (
-    hod_id INT PRIMARY KEY,
+    hod_id VARCHAR (10) PRIMARY KEY,
     firstName VARCHAR(20),
     middleName VARCHAR(20),
     lastName VARCHAR(20),
@@ -27,7 +27,7 @@ CREATE TABLE HOD (
 
 -- ADVISOR table
 CREATE TABLE ADVISOR (
-    advisor_id INT PRIMARY KEY,
+    advisor_id VARCHAR (10) PRIMARY KEY,
     firstName VARCHAR(20),
     middleName VARCHAR(20),
     lastName VARCHAR(20),
@@ -40,43 +40,43 @@ CREATE TABLE ADVISOR (
 
 -- GROUP table
 CREATE TABLE GROUPS (
-    group_id INT PRIMARY KEY,
+    group_id VARCHAR (10) PRIMARY KEY,
     group_name VARCHAR(20)
 );
 
 
 -- STUDENT table (without multivalued attributes)
 CREATE TABLE STUDENT (
-    student_id INT PRIMARY KEY,
+    student_id VARCHAR (10) PRIMARY KEY,
     firstName VARCHAR(20),
     middleName VARCHAR(20),
     lastName VARCHAR(20),
     email VARCHAR(20),
     password VARCHAR(20),
     status VARCHAR(10),
-    group_id INT,
+    group_id VARCHAR (10),
     GPA DECIMAL(3,2),
     FOREIGN KEY (group_id) REFERENCES GROUPS(group_id)
 );
 
 -- STUDENT multivalued attributes
 CREATE TABLE STUDENT_LOCATION (
-    student_id INT,
+    student_id VARCHAR (10),
     location VARCHAR(20),
     PRIMARY KEY (student_id, location),
     FOREIGN KEY (student_id) REFERENCES STUDENT(student_id)
 );
 
 CREATE TABLE STUDENT_CONTRIBUTION (
-    contribution_id INT PRIMARY KEY,
-    student_id INT NOT NULL,
+    contribution_id VARCHAR (10) PRIMARY KEY,
+    student_id VARCHAR (10) NOT NULL,
     contribution TEXT NOT NULL,
     FOREIGN KEY (student_id) REFERENCES STUDENT(student_id)
 );
 
 -- GROUP schedule (multivalued)
 CREATE TABLE GROUP_SCHEDULE (
-    group_id INT,
+    group_id VARCHAR (10),
     schedule_item VARCHAR(20),
     PRIMARY KEY (group_id, schedule_item),
     FOREIGN KEY (group_id) REFERENCES GROUPS(group_id)
@@ -84,17 +84,17 @@ CREATE TABLE GROUP_SCHEDULE (
 
 -- PROJECT table
 CREATE TABLE PROJECT (
-    project_id INT PRIMARY KEY,
+    project_id VARCHAR (10) PRIMARY KEY,
     projectName VARCHAR(30),
-    group_id INT UNIQUE,
+    group_id VARCHAR (10) UNIQUE,
     FOREIGN KEY (group_id) REFERENCES GROUPS(group_id)
 );
 
 -- TASK table
 CREATE TABLE TASK (
-    task_id INT PRIMARY KEY,
-    student_id INT,
-    project_id INT,
+    task_id VARCHAR (10) PRIMARY KEY,
+    student_id VARCHAR (10),
+    project_id VARCHAR (10),
     task_title VARCHAR(30),
     do_date DATE,
     FOREIGN KEY (student_id) REFERENCES STUDENT(student_id),
@@ -103,9 +103,9 @@ CREATE TABLE TASK (
 
 -- ASSIGN relationship (Advisor assigns Task to Student)
 CREATE TABLE ASSIGN (
-    advisor_id INT,
-    student_id INT,
-    task_id INT,
+    advisor_id VARCHAR (10),
+    student_id VARCHAR (10),
+    task_id VARCHAR (10),
     assigned_at DATETIME,
     PRIMARY KEY (advisor_id, student_id, task_id),
     FOREIGN KEY (advisor_id) REFERENCES ADVISOR(advisor_id),
@@ -115,12 +115,13 @@ CREATE TABLE ASSIGN (
 
 -- MESSAGE table (recursive relationship: any role can send/receive)
 CREATE TABLE MESSAGE (
-    message_id INT PRIMARY KEY,
+    message_id VARCHAR (10) PRIMARY KEY,
     sender_type VARCHAR(40),   -- 'ADMIN', 'HOD', 'ADVISOR', 'STUDENT'
-    sender_id INT,
+    sender_id VARCHAR (10),
     receiver_type VARCHAR(40), -- same as above
-    receiver_id INT,
+    receiver_id VARCHAR (10),
     message_body TEXT,
     sent_at DATETIME
 
 );
+
