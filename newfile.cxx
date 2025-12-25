@@ -1,51 +1,43 @@
 #include <iostream>
-#include <fstream>  // For file handling
-#include <string>   // For string usage
+#include <fstream>
 
 using namespace std;
 
-// Maximum number of tasks we can store
 const int MAX_TASKS = 50;
 
-// Defines what a Task looks like
 struct Task {
     string title;
     string description;
     string assignedTo;
     string dueDate;
-    int progress; // 0 to 100
+    int progress;
 };
 
-// Global variables 
 Task tasks[MAX_TASKS];
 int taskCount = 0;
-
-// Function Prototypes (telling the compiler these functions exist)
 void loadTasks();
 void saveTasks();
 void addTask();
 void viewTasks();
 void updateProgress();
+void deleteTask();
 
 int main() {
-    // 1. Load existing tasks from file when program starts
+
     loadTasks();
 
     int choice;
-    
+
     do {
-        // Display Menu
-        cout << "\n==============================\n";
-        cout << "   TASK ASSIGNMENT MODULE\n";
+        cout << "\n==============================\n"<< "   TASK ASSIGNMENT MODULE\n";
         cout << "==============================\n";
         cout << "1. Add New Task\n";
         cout << "2. View All Tasks\n";
         cout << "3. Update Task Progress\n";
-        cout << "4. Save & Exit\n";
+        cout << "4. Delete Task\n";        
+        cout << "5. Save & Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
-
-        // Handle user choice
         switch (choice) {
             case 1:
                 addTask();
@@ -56,7 +48,9 @@ int main() {
             case 3:
                 updateProgress();
                 break;
-            case 4:
+             case 4: deleteTask();
+                break;    
+            case 5:
                 saveTasks();
                 cout << "Tasks saved. Exiting program. Goodbye!\n";
                 break;
@@ -64,24 +58,20 @@ int main() {
                 cout << "Invalid choice! Please try again.\n";
         }
 
-    } while (choice != 4);
+    } while (choice != 5);
 
     return 0;
 }
-
-//definition function
-// Adds a new task to the array
 void addTask() {
     if (taskCount >= MAX_TASKS) {
         cout << "Error: Task list is full (Max 50).\n";
         return;
     }
 
-    // Clear the input buffer so getline works correctly after 'cin'
-    cin.ignore(); 
+    cin.ignore();
 
     cout << "\n--- Add New Task ---\n";
-    
+
     cout << "Enter Task Title: ";
     getline(cin, tasks[taskCount].title);
 
@@ -94,15 +84,12 @@ void addTask() {
     cout << "Due Date (e.g., 2023-12-31): ";
     getline(cin, tasks[taskCount].dueDate);
 
-    // New tasks start at 0% progress
     tasks[taskCount].progress = 0;
 
-    // Increase the counter
     taskCount++;
     cout << "Task added successfully!\n";
 }
 
-// Displays all tasks in the array
 void viewTasks() {
     if (taskCount == 0) {
         cout << "\nNo tasks available.\n";
@@ -121,15 +108,13 @@ void viewTasks() {
     }
 }
 
-// Updates the progress percentage of a specific task
 void updateProgress() {
     if (taskCount == 0) {
         cout << "\nNo tasks to update.\n";
         return;
     }
 
-    // First show the list so user knows the ID
-    viewTasks(); 
+    viewTasks();
 
     int id;
     cout << "Enter the ID of the task to update: ";
@@ -144,25 +129,19 @@ void updateProgress() {
     int newProgress;
     cout << "Enter new progress (0-100): ";
     cin >> newProgress;
-
-    // Validate percentage
     if (newProgress < 0 || newProgress > 100) {
         cout << "Invalid progress! Must be between 0 and 100.\n";
     } else {
-        // Update the specific task in the array
         tasks[id - 1].progress = newProgress;
         cout << "Progress updated successfully!\n";
     }
 }
 
-// Saves all array data to "tasks.txt"
 void saveTasks() {
-    ofstream outFile("tasks.txt"); // Open file for writing
+    ofstream outFile("tasks.txt");
 
     if (outFile.is_open()) {
-        // Write the total count first (optional, but helps with loops)
-        // However, for this simple logic, we will just write the data directly.
-        
+
         for (int i = 0; i < taskCount; i++) {
             outFile << tasks[i].title << endl;
             outFile << tasks[i].description << endl;
@@ -176,27 +155,20 @@ void saveTasks() {
     }
 }
 
-// Loads data from "tasks.txt" into the array
-void loadTasks() {
-    ifstream inFile("tasks.txt"); // Open file for reading
 
+void loadTasks() {
+    fstream inFile("tasks.txt");
     if (inFile.is_open()) {
-        taskCount = 0; // Reset count
-        
-        // Loop while we can read a title and haven't filled the array
-        // We use string temporary variables or read directly into struct
+        taskCount = 0;
         while (taskCount < MAX_TASKS && getline(inFile, tasks[taskCount].title)) {
-            
+
             getline(inFile, tasks[taskCount].description);
             getline(inFile, tasks[taskCount].assignedTo);
             getline(inFile, tasks[taskCount].dueDate);
-            
+
             inFile >> tasks[taskCount].progress;
-            
-            // IMPORTANT: After reading an int (progress), the newline character 
-            // remains in the buffer. We must ignore it before reading the 
-            // next Task's title string.
-            inFile.ignore(); 
+
+            inFile.ignore();
 
             taskCount++;
         }
@@ -206,3 +178,29 @@ void loadTasks() {
         cout << "No saved file found. Starting with empty list.\n";
     }
 }
+void deleteTask() {
+    if (taskCount == 0) {
+        cout << "\nNo tasks to delete.\n";
+        return;
+    }
+
+    viewTasks();
+
+    int id;
+    cout << "Enter the ID of the task to delete: ";
+    cin >> id;
+
+    if (id < 1 || id > taskCount) {
+        cout << "Invalid Task ID.\n";
+        return;
+    }
+
+    for (int i = id - 1; i < taskCount - 1; i++) {
+        tasks[i] = tasks[i + 1];
+    }
+
+    taskCount--;
+
+    cout << "Task deleted successfully!\n";
+}
+
