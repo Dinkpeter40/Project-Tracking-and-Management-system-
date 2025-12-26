@@ -1,0 +1,118 @@
+CREATE TABLE groups (
+    group_id INT PRIMARY KEY,
+    group_name VARCHAR(100),
+    leader_student_id INT
+);
+
+CREATE TABLE Admin (
+    admin_id INT PRIMARY KEY,
+    firstName VARCHAR(50),
+    middleName VARCHAR(50),
+    lastName VARCHAR(50),
+    email VARCHAR(100),
+    password VARCHAR(100),
+    status VARCHAR(20),
+    createdUsersCount INT
+);
+
+CREATE TABLE Advisor (
+    advisor_id INT PRIMARY KEY,
+    firstName VARCHAR(50),
+    middleName VARCHAR(50),
+    lastName VARCHAR(50),
+    email VARCHAR(100),
+    password VARCHAR(100),
+    status VARCHAR(20),
+    course VARCHAR(100)
+);
+
+CREATE TABLE HOD (
+    hod_id INT PRIMARY KEY,
+    firstName VARCHAR(50),
+    middleName VARCHAR(50),
+    lastName VARCHAR(50),
+    email VARCHAR(100),
+    password VARCHAR(100),
+    status VARCHAR(20),
+    officeNumber VARCHAR(20)
+);
+
+CREATE TABLE Student (
+    student_id INT PRIMARY KEY,
+    firstName VARCHAR(50),
+    middleName VARCHAR(50),
+    lastName VARCHAR(50),
+    email VARCHAR(100),
+    password VARCHAR(100),
+    status VARCHAR(20),
+    gpa DECIMAL(3,2),
+    section VARCHAR(20),
+    gender VARCHAR(10),
+    group_id INT
+);
+
+CREATE TABLE Location (
+    location_id INT PRIMARY KEY,
+    location VARCHAR(100)
+);
+
+CREATE TABLE Contribution (
+    contribution_id INT PRIMARY KEY,
+    contribution TEXT,
+    student_id INT,
+    location_id INT,
+    FOREIGN KEY (student_id) REFERENCES Student(student_id),
+    FOREIGN KEY (location_id) REFERENCES Location(location_id)
+);
+
+CREATE TABLE Project (
+    project_id INT PRIMARY KEY,
+    projectName VARCHAR(100),
+    group_id INT,
+    FOREIGN KEY (group_id) REFERENCES groups(group_id)
+);
+
+CREATE TABLE Task (
+    task_id INT PRIMARY KEY,
+    task_title VARCHAR(100),
+    description TEXT,
+    due_date DATE,
+    project_id INT,
+    FOREIGN KEY (project_id) REFERENCES Project(project_id)
+);
+
+CREATE TABLE Schedule (
+    schedule_id INT PRIMARY KEY,
+    meetingDate DATE,
+    purpose TEXT,
+    group_id INT,
+    FOREIGN KEY (group_id) REFERENCES groups(group_id)
+);
+
+CREATE TABLE Assign (
+    assign_id INT PRIMARY KEY,
+    assignedDate DATE,
+    student_id INT,
+    task_id INT,
+    advisor_id INT,
+    FOREIGN KEY (student_id) REFERENCES Student(student_id),
+    FOREIGN KEY (task_id) REFERENCES Task(task_id),
+    FOREIGN KEY (advisor_id) REFERENCES Advisor(advisor_id)
+);
+
+CREATE TABLE Message (
+    message_id INT PRIMARY KEY,
+    message_body TEXT,
+    sent_at DATE,
+    receiver_student INT,
+    FOREIGN KEY (receiver_student) REFERENCES Student(student_id)
+);
+
+
+ALTER TABLE groups
+ADD CONSTRAINT fk_group_leader
+FOREIGN KEY (leader_student_id) REFERENCES Student(student_id);
+
+ALTER TABLE Student
+ADD CONSTRAINT fk_student_group
+FOREIGN KEY (group_id) REFERENCES groups(group_id);
