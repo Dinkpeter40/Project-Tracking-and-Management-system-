@@ -1,0 +1,35 @@
+CREATE TABLE ADMIN (
+    admin_id VARCHAR (10) PRIMARY KEY,
+    firstName VARCHAR(20) NOT NULL,
+    middleName VARCHAR(20),
+    lastName VARCHAR(20),
+    email VARCHAR(30) UNIQUE,
+    password VARCHAR(20) NOT NULL,
+    status VARCHAR(10) ,
+    createUserCount INT
+);
+drop table admin
+
+-- HOD table
+CREATE TABLE HOD (
+    hod_id VARCHAR (10) PRIMARY KEY,
+    firstName VARCHAR(20) NOT NULL,
+    middleName VARCHAR(20),
+    lastName VARCHAR(20),
+    email VARCHAR(30) UNIQUE,
+    password VARCHAR(20) NOT NULL,
+    status VARCHAR(10),
+    officeNumber VARCHAR(10)
+);
+drop table hod
+-- ADVISOR table
+CREATE TABLE ADVISOR (
+    advisor_id VARCHAR (10) PRIMARY KEY,
+    firstName VARCHAR(20) NOT NULL,
+    middleName VARCHAR(20),
+    lastName VARCHAR(20),
+    email VARCHAR(30) UNIQUE,
+    password VARCHAR(20) NOT NULL,
+    status VARCHAR(10),
+    course VARCHAR(10)
+);
